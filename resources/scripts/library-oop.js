@@ -5,7 +5,10 @@ class Book {
     this.yearPublished = yearPublished;
     this.genre = genre;
     this.description = description;
-    this.isRead = false;
+    this.read = false;
+    this.isRead = function(){
+      return this.read;
+    }
   }
 }
 
@@ -47,7 +50,7 @@ class SelectedBookPartsFactory extends HTMLFactory {
 
 class BookDisplayBuilder {
   constructor(bookPartsFactory) {
-    if(bookPartsFactory instanceof HTMLFactory){
+    if (bookPartsFactory instanceof HTMLFactory) {
       this.factory = bookPartsFactory;
     }
   }
@@ -87,21 +90,21 @@ class SelectedBookDisplayBuilder {
     if (book instanceof Book) {
       const display = document.createElement("div");
       display.classList.add("full-description");
-      display.appendChild(this.htmlFactory.createH4("Title"));
-      display.appendChild(this.htmlFactory.createParagraph(book.title));
-      display.appendChild(this.htmlFactory.createH4("Description"));
-      display.appendChild(this.htmlFactory.createParagraph(book.description));
-      display.appendChild(this.htmlFactory.createH4("Author"));
-      display.appendChild(this.htmlFactory.createParagraph(book.author));
-      display.appendChild(this.htmlFactory.createH4("Genre"));
-      display.appendChild(this.htmlFactory.createParagraph(book.genre));
-      display.appendChild(this.htmlFactory.createH4("Published Year"));
-      display.appendChild(this.htmlFactory.createParagraph(book.year));
-      display.appendChild(this.htmlFactory.createH4("Status"));
-      if (this.book.isRead) {
-        display.appendChild(this.htmlFactory.createParagraph("Read"));
+      display.appendChild(this.factory.createH4("Title"));
+      display.appendChild(this.factory.createParagraph(book.title));
+      display.appendChild(this.factory.createH4("Description"));
+      display.appendChild(this.factory.createParagraph(book.description));
+      display.appendChild(this.factory.createH4("Author"));
+      display.appendChild(this.factory.createParagraph(book.author));
+      display.appendChild(this.factory.createH4("Genre"));
+      display.appendChild(this.factory.createParagraph(book.genre));
+      display.appendChild(this.factory.createH4("Published Year"));
+      display.appendChild(this.factory.createParagraph(book.year));
+      display.appendChild(this.factory.createH4("Status"));
+      if (book.isRead) {
+        display.appendChild(this.factory.createParagraph("Read"));
       } else {
-        display.appendChild(this.htmlFactory.createParagraph("Unread"));
+        display.appendChild(this.factory.createParagraph("Unread"));
       }
       display.appendChild(this.factory.createRemoveButton());
       return display;
@@ -158,78 +161,58 @@ class Shelf {
   }
 }
 
-class Library {
-  constructor(
-    shelfDisplay,
-    bookPartsFactory,
-    selectedBookPartsFactory,
-    selectedBookDisplay
-  ) {
-    this.bookDisplayBuilder = new BookDisplayBuilder(
-      bookPartsFactory
-    );
-    this.selectedBookDisplayBuilder = new SelectedBookDisplayBuilder(
-      selectedBookPartsFactory
-    );
-    this.shelf = new Shelf(shelfDisplay);
-    this.shelfDisplay = shelfDisplay;
-    this.selectedBook = null;
-    this.selectedBookDisplay = selectedBookDisplay;
-  }
-
-  addBook(newBook) {
-    let newBookDisplay = this.bookDisplayBuilder.buildDisplay(newBook);
-    newBookDisplay.addEventListener("click", this.selectBook);
-    this.shelf.add(newBook, newBookDisplay);
-  }
-
-
-  selectBook(htmlElement) {
-    this.selectedBook = this.shelf.findByDisplay(htmlElement);
-    this.selectedBookDisplay.replaceWith(
-      this.selectedBookDisplayBuilder.buildDisplay()
-    );
-    const previouslySelectedBookDisplay = document.querySelector(".selected");
-    if (previouslySelectedBookDisplay != null) {
-      previouslySelectedBookDisplay.classList.remove("selected");
-    }
-    htmlElement.classList.add("selected");
-  }
-
-  removeBook() {
-    this.shelf.remove(this.selectedBook);
-    this.selectedBook = null;
-    this.selectedBookDisplay.replaceWith(
-      this.SelectedBookDisplayBuilder.buildEmptyDisplay()
-    );
+function removeStyleSelected() {
+  const selectedBook = document.querySelector(".book.selected");
+  if (selectedBook != null) {
+    selectedBook.classList.remove("selected");
   }
 }
 
+function selectBook(element) {
+  const htmlElement = element.srcElement;
+  const selected = shelf.findByDisplay(htmlElement);
+  removeStyleSelected();
+  selectedBook = selected;
+  htmlElement.classList.add("selected");
+  const newDisplay = selectedBookDisplayBuilder.buildDisplay(selected);
+  newDisplay.querySelector("button.remove").addEventListener("click", removeBook);
+  document.querySelector(".full-description").replaceWith(newDisplay);
+}
+
+function removeBook() {
+  shelf.remove(selectedBook);
+  selectedBook = null;
+  document.querySelector(".full-description").replaceWith(selectedBookDisplayBuilder.buildEmptyDisplay());
+}
+
+function createBook() {
+  return bookCreator.create();
+}
+
+function addBookToShelf() {
+  const newBook = createBook();
+  const newBookDisplay = bookDisplayBuilder.buildDisplay(newBook);
+  newBookDisplay.addEventListener("click", selectBook);
+  shelf.add(newBook, newBookDisplay);
+}
 
 const formElement = document.querySelector("form");
 const bookCreator = new BookCreator(formElement);
 
 const shelfDisplay = document.querySelector(".shelf");
-const shelf = new Shelf()
+const shelf = new Shelf(shelfDisplay);
 
-const selectedBook = null;
-const selectedBookDisplay = document.querySelector(".full-description");
+let selectedBook = null;
 
 const bookPartsFactory = new BookPartsFactory();
 const bookDisplayBuilder = new BookDisplayBuilder(bookPartsFactory);
 
 const selectedBookPartsFactory = new SelectedBookPartsFactory();
-const selectedBookDisplayBuilder = new SelectedBookDisplayBuilder(selectedBookPartsFactory);
-
-
+const selectedBookDisplayBuilder = new SelectedBookDisplayBuilder(
+  selectedBookPartsFactory
+);
 
 const addButton = document.querySelector("button.submit");
-addButton.addEventListener("click", createBook);
-const removeButton = document.querySelector("button.remove");
-// removeButton.addEventListener("click", library.removeBook());
-function selectBook(e) {
-  library.selectBook(e);
-}
-function createBook(){
-  library.addBook(bookCreator.create());
-}
+addButton.addEventListener("click", addBookToShelf);
+
+const ele = document.createElement("div");
