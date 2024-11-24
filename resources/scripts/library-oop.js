@@ -1,170 +1,190 @@
-function Book(title, author, yearPublished, genre, description) {
-  this.title = title;
-  this.author = author;
-  this.yearPublished = yearPublished;
-  this.genre = genre;
-  this.description = description;
-  this.isRead = false;
+class Book {
+  constructor(title, author, yearPublished, genre, description) {
+    this.title = title;
+    this.author = author;
+    this.yearPublished = yearPublished;
+    this.genre = genre;
+    this.description = description;
+    this.isRead = false;
+  }
 }
 
-function HTMLFactory() {
-  this.createParagraph = function (p) {
+class HTMLFactory {
+  createParagraph(p) {
     const header_para = document.createElement("p");
     header_para.textContent = p;
     return header_para;
-  };
-  this.createH4 = function (h) {
+  }
+  createH4(h) {
     const h4 = document.createElement("h4");
     h4.textContent = h;
     return h4;
-  };
+  }
 }
 
-function BookPartsFactory() {
-  this.createBookRim = function () {
+class BookPartsFactory extends HTMLFactory {
+  createBookRim() {
     const rim = document.createElement("div");
     rim.classList.add("rim");
     return rim;
-  };
+  }
 
-  this.createGroupTag = function () {
+  createGroupTag() {
     const tagGroup = document.createElement("div");
     tagGroup.classList.add("tag-group");
     return tagGroup;
-  };
+  }
 }
 
-function SelectedBookPartsFactory() {
-  this.createRemoveButton = function () {
+class SelectedBookPartsFactory extends HTMLFactory {
+  createRemoveButton() {
     const removeButton = document.createElement("button");
     removeButton.classList.add("remove");
     removeButton.textContent = "Delete";
     return removeButton;
-  };
+  }
 }
 
-function BookDisplayBuilder(bookPartsFactory) {
-  this.factory = bookPartsFactory;
-  this.buildDisplay = function (book) {
-    const bookElement = document.createElement("div");
-    bookElement.classList.add("book");
-
-    const header = this.factory.createGroupTag();
-    header.appendChild(this.factory.createBookRim());
-    header.appendChild(this.factory.createParagraph(book.genre));
-    header.appendChild(this.factory.createBookRim());
-
-    const title = this.factory.createH4(book.title);
-    const author = this.factory.createParagraph(book.author);
-
-    const footer = this.factory.createGroupTag();
-    footer.appendChild(this.factory.createBookRim());
-    footer.appendChild(this.factory.createParagraph(book.year));
-    footer.appendChild(this.factory.createBookRim());
-
-    bookElement.appendChild(header);
-    bookElement.appendChild(title);
-    bookElement.appendChild(author);
-    bookElement.appendChild(footer);
-
-    return bookElement;
-  };
-}
-
-function SelectedBookDisplayBuilder(selectedBookPartsFactory) {
-  this.factory = selectedBookPartsFactory;
-  this.buildDisplay = function (book) {
-    const display = document.createElement("div");
-    display.classList.add("full-description");
-    display.appendChild(this.factory.createH4("Title"));
-    display.appendChild(this.factory.createParagraph(book.title));
-    display.appendChild(this.factory.createH4("Description"));
-    display.appendChild(this.factory.createParagraph(book.description));
-    display.appendChild(this.factory.createH4("Author"));
-    display.appendChild(this.factory.createParagraph(book.author));
-    display.appendChild(this.factory.createH4("Genre"));
-    display.appendChild(this.factory.createParagraph(book.genre));
-    display.appendChild(this.factory.createH4("Published Year"));
-    display.appendChild(this.factory.createParagraph(book.year));
-    display.appendChild(this.factory.createH4("Status"));
-    if (this.book.isRead) {
-      display.appendChild(this.factory.createParagraph("Read"));
-    } else {
-      display.appendChild(this.factory.createParagraph("Unread"));
+class BookDisplayBuilder {
+  constructor(bookPartsFactory) {
+    if(bookPartsFactory instanceof HTMLFactory){
+      this.factory = bookPartsFactory;
     }
-    display.appendChild(this.factory.createRemoveButton());
-    return display;
-  };
-  this.buildEmptyDisplay = function () {
+  }
+  buildDisplay(book) {
+    if (book instanceof Book) {
+      const bookElement = document.createElement("div");
+      bookElement.classList.add("book");
+
+      const header = this.factory.createGroupTag();
+      header.appendChild(this.factory.createBookRim());
+      header.appendChild(this.factory.createParagraph(book.genre));
+      header.appendChild(this.factory.createBookRim());
+
+      const title = this.factory.createH4(book.title);
+      const author = this.factory.createParagraph(book.author);
+
+      const footer = this.factory.createGroupTag();
+      footer.appendChild(this.factory.createBookRim());
+      footer.appendChild(this.factory.createParagraph(book.year));
+      footer.appendChild(this.factory.createBookRim());
+
+      bookElement.appendChild(header);
+      bookElement.appendChild(title);
+      bookElement.appendChild(author);
+      bookElement.appendChild(footer);
+
+      return bookElement;
+    }
+  }
+}
+
+class SelectedBookDisplayBuilder {
+  constructor(selectedBookPartsFactory) {
+    this.factory = selectedBookPartsFactory;
+  }
+  buildDisplay(book) {
+    if (book instanceof Book) {
+      const display = document.createElement("div");
+      display.classList.add("full-description");
+      display.appendChild(this.htmlFactory.createH4("Title"));
+      display.appendChild(this.htmlFactory.createParagraph(book.title));
+      display.appendChild(this.htmlFactory.createH4("Description"));
+      display.appendChild(this.htmlFactory.createParagraph(book.description));
+      display.appendChild(this.htmlFactory.createH4("Author"));
+      display.appendChild(this.htmlFactory.createParagraph(book.author));
+      display.appendChild(this.htmlFactory.createH4("Genre"));
+      display.appendChild(this.htmlFactory.createParagraph(book.genre));
+      display.appendChild(this.htmlFactory.createH4("Published Year"));
+      display.appendChild(this.htmlFactory.createParagraph(book.year));
+      display.appendChild(this.htmlFactory.createH4("Status"));
+      if (this.book.isRead) {
+        display.appendChild(this.htmlFactory.createParagraph("Read"));
+      } else {
+        display.appendChild(this.htmlFactory.createParagraph("Unread"));
+      }
+      display.appendChild(this.factory.createRemoveButton());
+      return display;
+    }
+  }
+  buildEmptyDisplay() {
     const emplyDisplay = document.createElement("div");
     emplyDisplay.classList.add("full-description");
     emplyDisplay.textContent = "Select A Book";
     return emplyDisplay;
-  };
+  }
 }
 
-function BookCreator(input) {
-  this.input = input;
-  this.create = function () {
+class BookCreator {
+  constructor(input) {
+    this.input = input;
+  }
+  create() {
     let newBook = new Book(
-      input.elements.title.value,
-      input.elements.author.value,
-      input.elements.year.value,
-      input.elements.genre.value,
-      input.elements.description.value
+      this.input.elements.title.value,
+      this.input.elements.author.value,
+      this.input.elements.year.value,
+      this.input.elements.genre.value,
+      this.input.elements.description.value
     );
-    input.reset();
+    this.input.reset();
     return newBook;
-  };
+  }
 }
 
-function Shelf(display) {
-  this.display = display;
-  (this.collection = new Map() < Book), HTMLElement > {};
-  this.add = function (key, value) {
-    this.collection.add(key, value);
-    this.display.appendChild(display);
-  };
-  this.remove = function (targetItem) {
+class Shelf {
+  constructor(display) {
+    this.display = display;
+    this.collection = new Map();
+    this.add = function (key, value) {
+      this.collection.set(key, value);
+      this.display.appendChild(value);
+    };
+  }
+  remove(targetItem) {
     this.collection.get(targetItem).remove();
-    this.collection.remove(targetItem);
-  };
-  this.findByDisplay = function (display) {
+    this.collection.delete(targetItem);
+  }
+  findByDisplay(display) {
     const values = this.collection.keys();
     for (let key of values) {
       if (this.collection.get(key) == display) {
         return key;
       }
     }
-  };
-  this.getElementDisplay = function (key) {
+  }
+  getElementDisplay(key) {
     return this.collection.get(key);
-  };
+  }
 }
 
-function Library(
-  bookCreator,
-  shelfDisplay,
-  bookPartsFactory,
-  selectedBookPartsFactory,
-  selectedBookDisplay
-) {
-  this.bookCreator = bookCreator;
-  this.bookDisplayBuilder = new BookDisplayBuilder(bookPartsFactory);
-  this.selectedBookDisplayBuilder = new selectedBookPartsFactory();
-  this.shelf = new Shelf(shelfDisplay);
-  this.shelfDisplay = shelfDisplay;
-  this.selectedBook = null;
-  this.selectedBookDisplay = selectedBookDisplay;
+class Library {
+  constructor(
+    shelfDisplay,
+    bookPartsFactory,
+    selectedBookPartsFactory,
+    selectedBookDisplay
+  ) {
+    this.bookDisplayBuilder = new BookDisplayBuilder(
+      bookPartsFactory
+    );
+    this.selectedBookDisplayBuilder = new SelectedBookDisplayBuilder(
+      selectedBookPartsFactory
+    );
+    this.shelf = new Shelf(shelfDisplay);
+    this.shelfDisplay = shelfDisplay;
+    this.selectedBook = null;
+    this.selectedBookDisplay = selectedBookDisplay;
+  }
 
-  this.addBook = function () {
-    const newBook = this.bookCreator.create();
-    const newBookDisplay = this.bookDisplayBuilder.buildDisplay(newBook);
-    newBook.addEventListener("click", this.selectBook(newBookDisplay));
+  addBook(newBook) {
+    let newBookDisplay = this.bookDisplayBuilder.buildDisplay(newBook);
+    newBookDisplay.addEventListener("click", this.selectBook);
     this.shelf.add(newBook, newBookDisplay);
-  };
+  }
 
-  this.selectBook = function (htmlElement) {
+
+  selectBook(htmlElement) {
     this.selectedBook = this.shelf.findByDisplay(htmlElement);
     this.selectedBookDisplay.replaceWith(
       this.selectedBookDisplayBuilder.buildDisplay()
@@ -174,37 +194,42 @@ function Library(
       previouslySelectedBookDisplay.classList.remove("selected");
     }
     htmlElement.classList.add("selected");
-  };
+  }
 
-  this.removeBook = function () {
+  removeBook() {
     this.shelf.remove(this.selectedBook);
     this.selectedBook = null;
     this.selectedBookDisplay.replaceWith(
       this.SelectedBookDisplayBuilder.buildEmptyDisplay()
     );
-  };
+  }
 }
 
+
+const formElement = document.querySelector("form");
+const bookCreator = new BookCreator(formElement);
+
+const shelfDisplay = document.querySelector(".shelf");
+const shelf = new Shelf()
+
+const selectedBook = null;
+const selectedBookDisplay = document.querySelector(".full-description");
+
+const bookPartsFactory = new BookPartsFactory();
+const bookDisplayBuilder = new BookDisplayBuilder(bookPartsFactory);
+
+const selectedBookPartsFactory = new SelectedBookPartsFactory();
+const selectedBookDisplayBuilder = new SelectedBookDisplayBuilder(selectedBookPartsFactory);
+
+
+
+const addButton = document.querySelector("button.submit");
+addButton.addEventListener("click", createBook);
+const removeButton = document.querySelector("button.remove");
+// removeButton.addEventListener("click", library.removeBook());
 function selectBook(e) {
   library.selectBook(e);
 }
-
-let formElement = document.querySelector("form");
-let bookCreator = new BookCreator(formElement);
-let shelfDisplay = document.querySelector("shelf");
-let bookPartsFactory = new BookPartsFactory();
-let selectedBookPartsFactory = new SelectedBookPartsFactory();
-let selectedBookDisplay = document.querySelector("full-description");
-
-let library = new Library(
-  bookCreator,
-  shelfDisplay,
-  bookPartsFactory,
-  selectedBookPartsFactory,
-  selectedBookDisplay
-);
-
-const addButton = document.querySelector("button.submit");
-addButton.addEventListener("click", library.addBook);
-const removeButton = document.querySelector("button.remove");
-removeButton.addEventListener("click", library.removeBook);
+function createBook(){
+  library.addBook(bookCreator.create());
+}
