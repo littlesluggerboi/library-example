@@ -137,8 +137,6 @@ function addBook() {
   }
 }
 
-function showBooks() {}
-
 function createRimElement() {
   const rim = document.createElement("div");
   rim.classList.add("rim");
