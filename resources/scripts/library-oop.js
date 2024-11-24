@@ -6,9 +6,9 @@ class Book {
     this.genre = genre;
     this.description = description;
     this.read = false;
-    this.isRead = function(){
+    this.isRead = function () {
       return this.read;
-    }
+    };
   }
 }
 
@@ -144,6 +144,7 @@ class Shelf {
       this.display.appendChild(value);
     };
   }
+
   remove(targetItem) {
     this.collection.get(targetItem).remove();
     this.collection.delete(targetItem);
@@ -158,6 +159,13 @@ class Shelf {
   }
   getElementDisplay(key) {
     return this.collection.get(key);
+  }
+
+  isFull() {
+    if (this.collection.size >= 10) {
+      return true;
+    }
+    return false;
   }
 }
 
@@ -175,14 +183,18 @@ function selectBook(element) {
   selectedBook = selected;
   htmlElement.classList.add("selected");
   const newDisplay = selectedBookDisplayBuilder.buildDisplay(selected);
-  newDisplay.querySelector("button.remove").addEventListener("click", removeBook);
+  newDisplay
+    .querySelector("button.remove")
+    .addEventListener("click", removeBook);
   document.querySelector(".full-description").replaceWith(newDisplay);
 }
 
 function removeBook() {
   shelf.remove(selectedBook);
   selectedBook = null;
-  document.querySelector(".full-description").replaceWith(selectedBookDisplayBuilder.buildEmptyDisplay());
+  document
+    .querySelector(".full-description")
+    .replaceWith(selectedBookDisplayBuilder.buildEmptyDisplay());
 }
 
 function createBook() {
@@ -190,10 +202,14 @@ function createBook() {
 }
 
 function addBookToShelf() {
-  const newBook = createBook();
-  const newBookDisplay = bookDisplayBuilder.buildDisplay(newBook);
-  newBookDisplay.addEventListener("click", selectBook);
-  shelf.add(newBook, newBookDisplay);
+  if (!shelf.isFull()) {
+    const newBook = createBook();
+    const newBookDisplay = bookDisplayBuilder.buildDisplay(newBook);
+    newBookDisplay.addEventListener("click", selectBook);
+    shelf.add(newBook, newBookDisplay);
+  } else{
+    alert("The Bookshelf is FULL!! Remove a one to add another.")
+  }
 }
 
 const formElement = document.querySelector("form");
