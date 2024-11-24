@@ -8,7 +8,9 @@
   </head>
   <body>
     <div class="container">
-      <div class="shelf"></div>
+      <div class="full-description">
+        Select A book
+      </div>
 
       <div>
         <h1>Welcome to the Library</h1>
@@ -22,7 +24,7 @@
             <input type="text" name="author" id="author" />
 
             <label for="year">Year Published</label>
-            <input type="tel" min="1500" max="2024" name="year" id="year" />
+            <input type="month" id="year" />
 
             <label for="genre">Genre</label>
             <select name="genre" id="genre">
@@ -36,22 +38,12 @@
             <textarea name="description" id="description"></textarea>
           </form>
 
-          <button>Add</button>
+          <button class="submit">Add</button>
         </div>
       </div>
+      <div class="shelf"></div>
     </div>
-    <div class="full-description">
-      <img src="./resources/icons/book-icon.svg" alt="">
-      <h3>Title</h3>
-      <p>This is a Crazy Planets</p>
-      <h4>Description</h4>
-      <p>description</p>
-      <h4>author</h4>
-      <p><i>author name</i></p>
-      <h4>genre</h4>
-      <p>genre</p>
-      <h4>Published year</h4>
-      <p>1990</p>
-    </div>
+
+   
   </body>
 </html>

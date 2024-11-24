@@ -8,11 +8,10 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
-  
-  padding-top: 5vh;
+  padding: 5vh;
 }
 
-h1{
+h1 {
   text-align: center;
   box-shadow: 0 3px 5px 0 black;
   padding: 0.5rem;
@@ -35,7 +34,9 @@ form {
   gap: 1rem;
 }
 
-input , textarea, select{
+input,
+textarea,
+select {
   appearance: none;
   outline: none;
   border: none;
@@ -45,7 +46,10 @@ input , textarea, select{
   box-shadow: inset -1px -1px 1px 1px rgb(189, 189, 189);
 }
 
-input:hover ,input:focus, select:hover, textarea:focus{
+input:hover,
+input:focus,
+select:hover,
+textarea:focus {
   outline: none;
   background-color: rgb(248, 248, 248);
   box-shadow: 1px 1px 1px 1px rgb(100, 69, 69);
@@ -58,14 +62,14 @@ textarea {
   padding: 0.25rem;
 }
 
-select{
+select {
   border-radius: 0.25rem;
   text-align: center;
   background-color: white;
   color: black;
 }
 
-button {
+button.submit , button.remove{
   width: 8rem;
   height: 2rem;
   border-radius: 0.25rem;
@@ -75,12 +79,17 @@ button {
   color: white;
 }
 
-button:hover {
+button.submit:hover , button.remove:hover{
   opacity: 0.8;
 }
-button:active{
+button.submit:active, button.remove:active {
   box-shadow: -2px -2px 2px 0px rgb(182, 182, 182);
   opacity: 1;
+}
+
+button.remove{
+  background-color: rgb(168, 0, 0);
+  justify-self: center;
 }
 
 .book {
@@ -98,9 +107,11 @@ button:active{
 
   height: 20rem;
   width: 5rem;
+
+  text-transform: capitalize;
 }
 
-.book:hover{
+.book:hover, .book.selected {
   width: 5.1rem;
   height: 20.1rem;
   z-index: 1;
@@ -124,6 +135,7 @@ button:active{
   font-size: 0.8rem;
 }
 
+
 .tag-group {
   width: 100%;
 }
@@ -134,14 +146,15 @@ button:active{
   background-color: gold;
 }
 
-.shelf {  
+.shelf {
+  grid-column: 1/-1;
   border-radius: 0.5rem;
   box-shadow: inset 0px 0px 5px 0px black;
   padding: 1rem;
-  display: grid;
-  grid-template-columns: repeat(8, 5rem);
+  display: flex;
   gap: 5px;
-  height: 42rem;
+  width: 55rem;
+  height: 22rem;
 }
 
 .book > .tag-group:first-child > p {
@@ -159,16 +172,27 @@ button:active{
 
 .container {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr auto;
   gap: 3rem;
 }
 
-.full-description{
-  width: 50vw;
+.full-description {
   box-shadow: inset 0px 0px 5px 0px black;
   display: grid;
+  padding: 1rem;
+  max-width: 45ch;
 }
 
-.full-description img{
-  width: 20rem;justify-self: center;
+.full-description p, .full-description h4{
+  padding: 0;
+  margin: 0;
+}
+
+.full-description p::first-letter, .full-description h4::first-letter{
+text-transform: capitalize;
+}
+
+.full-description p{
+  text-align: center;
 }

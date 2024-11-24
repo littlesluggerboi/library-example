@@ -3,7 +3,7 @@ function Book(book_title, author, year, genre, description) {
   this.author = author;
   this.year = year;
   this.genre = genre;
-  this.red = false;
+  this.isRead = false;
   this.description = description;
   this.display = null;
 }
@@ -19,21 +19,70 @@ function Library(library_name) {
   };
 
   this.isFull = function () {
-    return this.books.length >= 16;
+    return this.books.length >= 10;
   };
 
-  this.find = function (target){
-    for(let book of this.books){
-      if(book.display == target){
+  this.findByDisplay = function (target) {
+    for (let book of this.books) {
+      if (book.display == target) {
         return book;
       }
     }
     return null;
-  }
+  };
 
-  this.remove = function (target){
-    
+  this.remove = function (book) {
+    let iterator= 0;
+    while(iterator < this.books.length && this.books[iterator] != book){
+      iterator++;
+    }
+    if(iterator < this.books.length){
+      this.books[iterator].display.remove();
+      this.books.splice(iterator,1);
+    }
+  };
+}
+
+function Description(book){
+  this.book = book;
+  this.createDescriptionElement = function () {
+    const fullDescriptionElement = document.createElement("div");
+    fullDescriptionElement.classList.add("full-description");
+    fullDescriptionElement.appendChild(createH4Element("Title"));
+    fullDescriptionElement.appendChild(createParaElement(this.book.title));
+    fullDescriptionElement.appendChild(createH4Element("Description"));
+    fullDescriptionElement.appendChild(createParaElement(this.book.description));
+    fullDescriptionElement.appendChild(createH4Element("Author"));
+    fullDescriptionElement.appendChild(createParaElement(this.book.author));
+    fullDescriptionElement.appendChild(createH4Element("Genre"));
+    fullDescriptionElement.appendChild(createParaElement(this.book.genre));
+    fullDescriptionElement.appendChild(createH4Element("Published Year"));
+    fullDescriptionElement.appendChild(createParaElement(this.book.year));
+    fullDescriptionElement.appendChild(createH4Element("Status"));
+    if (this.book.isRead) {
+      fullDescriptionElement.appendChild(createParaElement("Read"));
+    } else {
+      fullDescriptionElement.appendChild(createParaElement("Unread"));
+    }
+    fullDescriptionElement.appendChild(createRemoveBookButton());
+    this.description = fullDescriptionElement;
   }
+  this.description = null;
+  this.deleteElementSelectedElement = function (){
+    standard_lib.remove(this.book);
+    this.book = null;
+    const emptyDescription = document.createElement("div");
+    emptyDescription.classList.add("full-description");
+    emptyDescription.textContent = "Select A Book";
+    this.description.replaceWith(emptyDescription);
+  }
+}
+function createRemoveBookButton(){
+  const removeButton = document.createElement("button");
+  removeButton.classList.add("remove");
+  removeButton.textContent = "Delete";
+  removeButton.addEventListener("click", removeBook);
+  return removeButton;
 }
 
 function createBookFromFormInput() {
@@ -50,13 +99,28 @@ function createBookFromFormInput() {
   return newBook;
 }
 
-function createFullDescriptionElement(){
-  
+
+
+function removeBook(){
+  highlightedElement.deleteElementSelectedElement();
 }
 
-function showFullDescription(e){
-  const book = standard_lib.find(e.srcElement);
-  console.log(book);
+function showFullDescription(e) {
+  const book = standard_lib.findByDisplay(e.srcElement);
+  removeStyleSelected();
+  highlightedElement.book = book;
+  highlightedElement.createDescriptionElement();
+  e.srcElement.classList.add("selected");
+  let container = document.querySelector(".container");
+  container.firstElementChild.replaceWith(highlightedElement.description);
+}
+
+function removeStyleSelected(){
+  const selectedBook = document.querySelector(".book.selected");
+  if(selectedBook!=null){
+    selectedBook.classList.remove("selected");
+  }
+
 }
 
 function addBook() {
@@ -64,18 +128,16 @@ function addBook() {
     let newBook = createBookFromFormInput();
     const shelf = document.querySelector(".shelf");
     const bookElement = createBookElement(newBook);
-    bookElement.addEventListener("click",showFullDescription);
+    bookElement.addEventListener("click", showFullDescription);
+    bookElement.addEventListener("drag", removeBook);
     newBook.display = bookElement;
     standard_lib.addBook(newBook);
     shelf.appendChild(bookElement);
-  } else{
-
+  } else {
   }
 }
 
-function showBooks() {
-  
-}
+function showBooks() {}
 
 function createRimElement() {
   const rim = document.createElement("div");
@@ -122,7 +184,9 @@ function createBookElement(book) {
   return bookElement;
 }
 
-const submitFormButton = document.querySelector("button");
+const submitFormButton = document.querySelector(".submit");
 submitFormButton.addEventListener("click", addBook);
 
 let standard_lib = new Library("The Library");
+let highlightedElement = new Description(null);
+
