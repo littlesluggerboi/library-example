@@ -1,0 +1,174 @@
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  
+  padding-top: 5vh;
+}
+
+h1{
+  text-align: center;
+  box-shadow: 0 3px 5px 0 black;
+  padding: 0.5rem;
+}
+
+.form {
+  width: 25rem;
+  padding: 2rem;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  box-shadow: 3px 3px 3px 3px gray;
+  border-radius: 0.5rem;
+}
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+input , textarea, select{
+  appearance: none;
+  outline: none;
+  border: none;
+  height: 1.4rem;
+  padding: 0 10px;
+  border-radius: 1rem;
+  box-shadow: inset -1px -1px 1px 1px rgb(189, 189, 189);
+}
+
+input:hover ,input:focus, select:hover, textarea:focus{
+  outline: none;
+  background-color: rgb(248, 248, 248);
+  box-shadow: 1px 1px 1px 1px rgb(100, 69, 69);
+  border: none;
+}
+textarea {
+  border-radius: 0.25rem;
+  resize: vertical;
+  min-height: 5rem;
+  padding: 0.25rem;
+}
+
+select{
+  border-radius: 0.25rem;
+  text-align: center;
+  background-color: white;
+  color: black;
+}
+
+button {
+  width: 8rem;
+  height: 2rem;
+  border-radius: 0.25rem;
+  border: none;
+  box-shadow: 2px 2px 2px 0px rgb(182, 182, 182);
+  background-color: rgb(100, 69, 69);
+  color: white;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+button:active{
+  box-shadow: -2px -2px 2px 0px rgb(182, 182, 182);
+  opacity: 1;
+}
+
+.book {
+  /* border: 1px solid red; */
+  box-shadow: 0px 0px 5px 5px rgb(173, 173, 173);
+  background-color: rgb(100, 69, 69);
+  padding: 0;
+  margin: 0;
+  border-radius: 0.25rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 20rem;
+  width: 5rem;
+}
+
+.book:hover{
+  width: 5.1rem;
+  height: 20.1rem;
+  z-index: 1;
+  box-shadow: 0px 0px 5px 5px rgb(221, 188, 1);
+}
+
+.book h4 {
+  padding: 0;
+  margin: 0;
+  width: 8rem;
+  rotate: -90deg;
+  color: gold;
+  text-align: center;
+}
+
+.book p {
+  padding: 0;
+  margin: 0;
+  color: white;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.tag-group {
+  width: 100%;
+}
+
+.rim {
+  height: 0.15rem;
+  width: 100%;
+  background-color: gold;
+}
+
+.shelf {  
+  border-radius: 0.5rem;
+  box-shadow: inset 0px 0px 5px 0px black;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(8, 5rem);
+  gap: 5px;
+  height: 42rem;
+}
+
+.book > .tag-group:first-child > p {
+  height: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.book > .tag-group:last-child > p {
+  height: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 3rem;
+}
+
+.full-description{
+  width: 50vw;
+  box-shadow: inset 0px 0px 5px 0px black;
+  display: grid;
+}
+
+.full-description img{
+  width: 20rem;justify-self: center;
+}

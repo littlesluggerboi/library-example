@@ -1,13 +1,57 @@
 <!DOCTYPE html>
-<html lang=en>
-<head>
-    <meta charset=UTF-8>
-    <meta name=viewport content=width=device-width, initial-scale=1.0>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
     <title>Project Title</title>
-    <link rel=stylesheet href=./resources/styles/styles.css>
-    <script src=./resources/scripts/script.js></script>
-</head>
-<body>
-    
-</body>
+    <link rel="stylesheet" href="./resources/styles/styles.css" />
+    <script src="./resources/scripts/script.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="shelf"></div>
+
+      <div>
+        <h1>Welcome to the Library</h1>
+
+        <div class="form">
+          <form id="form">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" />
+
+            <label for="author">Author</label>
+            <input type="text" name="author" id="author" />
+
+            <label for="year">Year Published</label>
+            <input type="tel" min="1500" max="2024" name="year" id="year" />
+
+            <label for="genre">Genre</label>
+            <select name="genre" id="genre">
+              <option value="Educational">Educational</option>
+              <option value="Fiction">Fiction</option>
+              <option value="Novel">Novel</option>
+              <option value="Thriller">Thriller</option>
+            </select>
+
+            <label for="description">Description</label>
+            <textarea name="description" id="description"></textarea>
+          </form>
+
+          <button>Add</button>
+        </div>
+      </div>
+    </div>
+    <div class="full-description">
+      <img src="./resources/icons/book-icon.svg" alt="">
+      <h3>Title</h3>
+      <p>This is a Crazy Planets</p>
+      <h4>Description</h4>
+      <p>description</p>
+      <h4>author</h4>
+      <p><i>author name</i></p>
+      <h4>genre</h4>
+      <p>genre</p>
+      <h4>Published year</h4>
+      <p>1990</p>
+    </div>
+  </body>
 </html>
