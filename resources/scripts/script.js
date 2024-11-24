@@ -77,6 +77,7 @@ function Description(book){
     this.description.replaceWith(emptyDescription);
   }
 }
+
 function createRemoveBookButton(){
   const removeButton = document.createElement("button");
   removeButton.classList.add("remove");
@@ -98,8 +99,6 @@ function createBookFromFormInput() {
   form.reset();
   return newBook;
 }
-
-
 
 function removeBook(){
   highlightedElement.deleteElementSelectedElement();
@@ -134,6 +133,7 @@ function addBook() {
     standard_lib.addBook(newBook);
     shelf.appendChild(bookElement);
   } else {
+    alert("The bookshelf is full. Remove one to add another.")
   }
 }
 
