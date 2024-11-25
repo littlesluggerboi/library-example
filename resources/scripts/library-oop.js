@@ -77,7 +77,7 @@ class BookDisplayBuilder {
       footer.appendChild(this.factory.createParagraph(book.yearPublished));
       footer.appendChild(this.factory.createBookRim());
 
-      const span = this.factory.createSpan("X");
+      const span = this.factory.createSpan("x");
 
       bookElement.appendChild(header);
       bookElement.appendChild(title);
@@ -107,7 +107,7 @@ class SelectedBookDisplayBuilder {
     display.appendChild(this.factory.createH4("Published Year"));
     display.appendChild(this.factory.createParagraph(book.year));
     display.appendChild(this.factory.createH4("Status"));
-    if (book.isRead) {
+    if (!book.isRead) {
       display.appendChild(this.factory.createParagraph("Read"));
     } else {
       display.appendChild(this.factory.createParagraph("Unread"));
@@ -222,11 +222,13 @@ function createBook() {
 }
 
 function showSpan(element) {
-  console.log(element);
   const htmlElement = isolateBookElement(element.srcElement);
   if(htmlElement != null){
     const span = htmlElement.querySelector("span");
-    span.style.display = "block"; 
+    span.style.display = "block";
+    
+    // add functionality to the x span
+    
   }
 }
 
