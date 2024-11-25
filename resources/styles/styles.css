@@ -94,6 +94,7 @@ button.remove{
 }
 
 .book {
+  position: relative;
   /* border: 1px solid red; */
   box-shadow: 0px 0px 5px 5px rgb(173, 173, 173);
   background-color: rgb(100, 69, 69);
@@ -197,4 +198,20 @@ text-transform: capitalize;
 
 .full-description p{
   text-align: center;
+}
+
+.book:hover{
+  opacity: 0.8;
+}
+h4{
+  cursor: pointer;
+}
+
+.book span{
+  position: absolute;
+  color: white;
+  border: 1px solid red;
+  display: none;
+  top:10rem;
+  right: 2rem;
 }

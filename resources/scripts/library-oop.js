@@ -23,6 +23,11 @@ class HTMLFactory {
     h4.textContent = h;
     return h4;
   }
+  createSpan(s) {
+    const span = document.createElement("span");
+    span.textContent = s;
+    return span;
+  }
 }
 
 class BookPartsFactory extends HTMLFactory {
@@ -69,14 +74,16 @@ class BookDisplayBuilder {
 
       const footer = this.factory.createGroupTag();
       footer.appendChild(this.factory.createBookRim());
-      footer.appendChild(this.factory.createParagraph(book.year));
+      footer.appendChild(this.factory.createParagraph(book.yearPublished));
       footer.appendChild(this.factory.createBookRim());
+
+      const span = this.factory.createSpan("X");
 
       bookElement.appendChild(header);
       bookElement.appendChild(title);
       bookElement.appendChild(author);
       bookElement.appendChild(footer);
-
+      bookElement.appendChild(span);
       return bookElement;
     }
   }
@@ -87,28 +94,26 @@ class SelectedBookDisplayBuilder {
     this.factory = selectedBookPartsFactory;
   }
   buildDisplay(book) {
-    if (book instanceof Book) {
-      const display = document.createElement("div");
-      display.classList.add("full-description");
-      display.appendChild(this.factory.createH4("Title"));
-      display.appendChild(this.factory.createParagraph(book.title));
-      display.appendChild(this.factory.createH4("Description"));
-      display.appendChild(this.factory.createParagraph(book.description));
-      display.appendChild(this.factory.createH4("Author"));
-      display.appendChild(this.factory.createParagraph(book.author));
-      display.appendChild(this.factory.createH4("Genre"));
-      display.appendChild(this.factory.createParagraph(book.genre));
-      display.appendChild(this.factory.createH4("Published Year"));
-      display.appendChild(this.factory.createParagraph(book.year));
-      display.appendChild(this.factory.createH4("Status"));
-      if (book.isRead) {
-        display.appendChild(this.factory.createParagraph("Read"));
-      } else {
-        display.appendChild(this.factory.createParagraph("Unread"));
-      }
-      display.appendChild(this.factory.createRemoveButton());
-      return display;
+    const display = document.createElement("div");
+    display.classList.add("full-description");
+    display.appendChild(this.factory.createH4("Title"));
+    display.appendChild(this.factory.createParagraph(book.title));
+    display.appendChild(this.factory.createH4("Description"));
+    display.appendChild(this.factory.createParagraph(book.description));
+    display.appendChild(this.factory.createH4("Author"));
+    display.appendChild(this.factory.createParagraph(book.author));
+    display.appendChild(this.factory.createH4("Genre"));
+    display.appendChild(this.factory.createParagraph(book.genre));
+    display.appendChild(this.factory.createH4("Published Year"));
+    display.appendChild(this.factory.createParagraph(book.year));
+    display.appendChild(this.factory.createH4("Status"));
+    if (book.isRead) {
+      display.appendChild(this.factory.createParagraph("Read"));
+    } else {
+      display.appendChild(this.factory.createParagraph("Unread"));
     }
+    display.appendChild(this.factory.createRemoveButton());
+    return display;
   }
   buildEmptyDisplay() {
     const emplyDisplay = document.createElement("div");
@@ -176,17 +181,32 @@ function removeStyleSelected() {
   }
 }
 
+function isolateBookElement(htmlElement) {
+  if (htmlElement.classList.contains("book")) {
+    return htmlElement;
+  } else if (
+    htmlElement.offsetParent != null &&
+    htmlElement.offsetParent.classList.contains("book")
+  ) {
+    return htmlElement.offsetParent;
+  } else {
+    return null;
+  }
+}
+
 function selectBook(element) {
-  const htmlElement = element.srcElement;
-  const selected = shelf.findByDisplay(htmlElement);
-  removeStyleSelected();
-  selectedBook = selected;
-  htmlElement.classList.add("selected");
-  const newDisplay = selectedBookDisplayBuilder.buildDisplay(selected);
-  newDisplay
-    .querySelector("button.remove")
-    .addEventListener("click", removeBook);
-  document.querySelector(".full-description").replaceWith(newDisplay);
+  const htmlElement = isolateBookElement(element.srcElement);
+  if (htmlElement != null) {
+    const selected = shelf.findByDisplay(htmlElement);
+    removeStyleSelected();
+    selectedBook = selected;
+    htmlElement.classList.add("selected");
+    const newDisplay = selectedBookDisplayBuilder.buildDisplay(selected);
+    newDisplay
+      .querySelector("button.remove")
+      .addEventListener("click", removeBook);
+    document.querySelector(".full-description").replaceWith(newDisplay);
+  }
 }
 
 function removeBook() {
@@ -201,14 +221,34 @@ function createBook() {
   return bookCreator.create();
 }
 
+function showSpan(element) {
+  console.log(element);
+  const htmlElement = isolateBookElement(element.srcElement);
+  if(htmlElement != null){
+    const span = htmlElement.querySelector("span");
+    span.style.display = "block"; 
+  }
+}
+
+function removeSpan(element) {
+  const htmlElement = isolateBookElement(element.srcElement);
+  if(htmlElement != null){
+    const span = htmlElement.querySelector("span");
+    span.style.display = "none";
+  }
+}
+
 function addBookToShelf() {
   if (!shelf.isFull()) {
     const newBook = createBook();
     const newBookDisplay = bookDisplayBuilder.buildDisplay(newBook);
     newBookDisplay.addEventListener("click", selectBook);
+    newBookDisplay.addEventListener("mouseenter", showSpan);
+    newBookDisplay.addEventListener("mouseleave", removeSpan);
+
     shelf.add(newBook, newBookDisplay);
-  } else{
-    alert("The Bookshelf is FULL!! Remove a one to add another.")
+  } else {
+    alert("The Bookshelf is FULL!! Remove a one to add another.");
   }
 }
 

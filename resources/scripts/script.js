@@ -122,13 +122,29 @@ function removeStyleSelected(){
 
 }
 
+function showSpan(element){
+  console.log(element);
+  const spanInElement = element.srcElement.querySelector("span");
+  spanInElement.style.display = "block";
+}
+
+function removeSpan(element){
+  const el = document.querySelector("span");
+  el.classList.contains("book");
+  const sourceElement = element.srcElement;
+  // console.log(sourceElement.offsetParent);  
+  console.log(sourceElement);
+  const spanInElement = element.srcElement.querySelector("span");
+}
+
 function addBook() {
   if (!standard_lib.isFull()) {
     let newBook = createBookFromFormInput();
     const shelf = document.querySelector(".shelf");
     const bookElement = createBookElement(newBook);
     bookElement.addEventListener("click", showFullDescription);
-    bookElement.addEventListener("drag", removeBook);
+    bookElement.addEventListener("mouseover", showSpan);
+    bookElement.addEventListener("mouseout", removeSpan);
     newBook.display = bookElement;
     standard_lib.addBook(newBook);
     shelf.appendChild(bookElement);
@@ -178,8 +194,14 @@ function createBookElement(book) {
   bookElement.appendChild(title);
   bookElement.appendChild(author);
   bookElement.appendChild(footer);
+  bookElement.appendChild(createSpan());
 
   return bookElement;
+}
+function createSpan(){
+  const span = document.createElement("span");
+  span.textContent = "x";
+  return span;
 }
 
 const submitFormButton = document.querySelector(".submit");
