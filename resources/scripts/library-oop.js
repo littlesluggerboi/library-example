@@ -25,7 +25,7 @@ class HTMLFactory {
   }
   createSpan(s) {
     const span = document.createElement("span");
-    span.textContent = s;
+    span.innerHTML = s;
     return span;
   }
 }
@@ -41,15 +41,6 @@ class BookPartsFactory extends HTMLFactory {
     const tagGroup = document.createElement("div");
     tagGroup.classList.add("tag-group");
     return tagGroup;
-  }
-}
-
-class SelectedBookPartsFactory extends HTMLFactory {
-  createRemoveButton() {
-    const removeButton = document.createElement("button");
-    removeButton.classList.add("remove");
-    removeButton.textContent = "Delete";
-    return removeButton;
   }
 }
 
@@ -76,50 +67,27 @@ class BookDisplayBuilder {
       footer.appendChild(this.factory.createBookRim());
       footer.appendChild(this.factory.createParagraph(book.yearPublished));
       footer.appendChild(this.factory.createBookRim());
-
-      const span = this.factory.createSpan("x");
+      let icon = "&#9697";
+      if (book.isRead()) {
+        icon = "👁";
+      }
+      const spanRead = this.factory.createSpan(icon);
+      spanRead.classList.add("read");
+      //&#9697
+      //"👁"
+      //&#10060
+      const spanRemove = this.factory.createSpan("&#10060");
+      spanRemove.classList.add("take");
 
       bookElement.appendChild(header);
       bookElement.appendChild(title);
       bookElement.appendChild(author);
       bookElement.appendChild(footer);
-      bookElement.appendChild(span);
+      bookElement.appendChild(spanRead);
+      bookElement.appendChild(spanRemove);
+
       return bookElement;
     }
-  }
-}
-
-class SelectedBookDisplayBuilder {
-  constructor(selectedBookPartsFactory) {
-    this.factory = selectedBookPartsFactory;
-  }
-  buildDisplay(book) {
-    const display = document.createElement("div");
-    display.classList.add("full-description");
-    display.appendChild(this.factory.createH4("Title"));
-    display.appendChild(this.factory.createParagraph(book.title));
-    display.appendChild(this.factory.createH4("Description"));
-    display.appendChild(this.factory.createParagraph(book.description));
-    display.appendChild(this.factory.createH4("Author"));
-    display.appendChild(this.factory.createParagraph(book.author));
-    display.appendChild(this.factory.createH4("Genre"));
-    display.appendChild(this.factory.createParagraph(book.genre));
-    display.appendChild(this.factory.createH4("Published Year"));
-    display.appendChild(this.factory.createParagraph(book.year));
-    display.appendChild(this.factory.createH4("Status"));
-    if (!book.isRead) {
-      display.appendChild(this.factory.createParagraph("Read"));
-    } else {
-      display.appendChild(this.factory.createParagraph("Unread"));
-    }
-    display.appendChild(this.factory.createRemoveButton());
-    return display;
-  }
-  buildEmptyDisplay() {
-    const emplyDisplay = document.createElement("div");
-    emplyDisplay.classList.add("full-description");
-    emplyDisplay.textContent = "Select A Book";
-    return emplyDisplay;
   }
 }
 
@@ -174,13 +142,6 @@ class Shelf {
   }
 }
 
-function removeStyleSelected() {
-  const selectedBook = document.querySelector(".book.selected");
-  if (selectedBook != null) {
-    selectedBook.classList.remove("selected");
-  }
-}
-
 function isolateBookElement(htmlElement) {
   if (htmlElement.classList.contains("book")) {
     return htmlElement;
@@ -191,21 +152,6 @@ function isolateBookElement(htmlElement) {
     return htmlElement.offsetParent;
   } else {
     return null;
-  }
-}
-
-function selectBook(element) {
-  const htmlElement = isolateBookElement(element.srcElement);
-  if (htmlElement != null) {
-    const selected = shelf.findByDisplay(htmlElement);
-    removeStyleSelected();
-    selectedBook = selected;
-    htmlElement.classList.add("selected");
-    const newDisplay = selectedBookDisplayBuilder.buildDisplay(selected);
-    newDisplay
-      .querySelector("button.remove")
-      .addEventListener("click", removeBook);
-    document.querySelector(".full-description").replaceWith(newDisplay);
   }
 }
 
@@ -221,22 +167,50 @@ function createBook() {
   return bookCreator.create();
 }
 
+function log(e) {
+  console.log(e.srcElement.parentElement);
+}
+
+function removeBook(e) {
+  const bookDisplay = e.srcElement.parentElement;
+  const book = shelf.findByDisplay(bookDisplay);
+  shelf.remove(book);
+}
+
+function toggleReadBook(e) {
+  const span = e.srcElement;
+  const bookDisplay = e.srcElement.parentElement;
+  const book = shelf.findByDisplay(bookDisplay);
+  if (book != null) {
+    book.read = !book.isRead();
+    let icon = "&#9697";
+    if (book.isRead()) {
+      icon = "👁";
+    }
+    span.innerHTML = icon;
+  }
+}
+
 function showSpan(element) {
-  const htmlElement = isolateBookElement(element.srcElement);
-  if(htmlElement != null){
-    const span = htmlElement.querySelector("span");
-    span.style.display = "block";
-    
-    // add functionality to the x span
-    
+  const htmlElement = element.srcElement;
+  if (htmlElement != null && htmlElement.classList.contains("book")) {
+    const spanRead = htmlElement.querySelector("span.read");
+    spanRead.style.display = "block";
+
+    const spanTake = htmlElement.querySelector("span.take");
+    spanTake.style.display = "block";
+
+    spanRead.addEventListener("click", toggleReadBook);
+    spanTake.addEventListener("click", removeBook);
   }
 }
 
 function removeSpan(element) {
-  const htmlElement = isolateBookElement(element.srcElement);
-  if(htmlElement != null){
-    const span = htmlElement.querySelector("span");
-    span.style.display = "none";
+  const htmlElement = element.srcElement;
+  if (htmlElement != null && htmlElement.classList.contains("book")) {
+    for (let span of htmlElement.querySelectorAll("span")) {
+      span.style.display = "none";
+    }
   }
 }
 
@@ -244,7 +218,6 @@ function addBookToShelf() {
   if (!shelf.isFull()) {
     const newBook = createBook();
     const newBookDisplay = bookDisplayBuilder.buildDisplay(newBook);
-    newBookDisplay.addEventListener("click", selectBook);
     newBookDisplay.addEventListener("mouseenter", showSpan);
     newBookDisplay.addEventListener("mouseleave", removeSpan);
 
@@ -260,17 +233,8 @@ const bookCreator = new BookCreator(formElement);
 const shelfDisplay = document.querySelector(".shelf");
 const shelf = new Shelf(shelfDisplay);
 
-let selectedBook = null;
-
 const bookPartsFactory = new BookPartsFactory();
 const bookDisplayBuilder = new BookDisplayBuilder(bookPartsFactory);
 
-const selectedBookPartsFactory = new SelectedBookPartsFactory();
-const selectedBookDisplayBuilder = new SelectedBookDisplayBuilder(
-  selectedBookPartsFactory
-);
-
 const addButton = document.querySelector("button.submit");
 addButton.addEventListener("click", addBookToShelf);
-
-const ele = document.createElement("div");

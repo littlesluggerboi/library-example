@@ -159,59 +159,42 @@ button.remove{
   height: 22rem;
 }
 
-.book > .tag-group:first-child > p {
-  height: 2.5rem;
+.book > .tag-group {
+  height: 3rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-}
-.book > .tag-group:last-child > p {
-  height: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr auto;
   gap: 3rem;
-}
-
-.full-description {
-  box-shadow: inset 0px 0px 5px 0px black;
-  display: grid;
-  padding: 1rem;
-  max-width: 45ch;
-  border-radius: 0.5rem;
-}
-
-.full-description p, .full-description h4{
-  padding: 0;
-  margin: 0;
-}
-
-.full-description p::first-letter, .full-description h4::first-letter{
-text-transform: capitalize;
-}
-
-.full-description p{
-  text-align: center;
 }
 
 .book:hover{
   opacity: 0.8;
 }
-h4{
-  cursor: pointer;
-}
 
-.book span{
+.book span.read{
+  height: 2.5rem;
   position: absolute;
   color: white;
-  border: 1px solid red;
   display: none;
-  bottom:2rem;
-  right: 2rem;
+  bottom:3.2rem;
+  right: 0.8rem;
+  cursor:pointer;
+  font-size: 1.5rem;
+}
+
+.book span.take{
+  display: none;
+  position: absolute;
+  height: 2.5rem;
+  bottom:3.25rem;
+  left: 0.8rem;
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+  
 }
