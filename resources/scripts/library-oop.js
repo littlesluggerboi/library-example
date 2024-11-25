@@ -114,7 +114,7 @@ class Shelf {
     this.collection = new Map();
     this.add = function (key, value) {
       this.collection.set(key, value);
-      this.display.appendChild(value);
+      this.display.prepend(value);
     };
   }
 
@@ -186,6 +186,7 @@ function toggleReadBook(e) {
     let icon = "&#9697";
     if (book.isRead()) {
       icon = "👁";
+    }else{
     }
     span.innerHTML = icon;
   }

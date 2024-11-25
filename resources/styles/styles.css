@@ -10,6 +10,8 @@ body {
   align-items: center;
   flex-direction: column;
   padding: 5vh;
+  background-image: url(../images/ocean-background.jpg);
+  background-size: cover;
 }
 
 h1 {
@@ -19,6 +21,7 @@ h1 {
 }
 
 .form {
+  justify-self: center;
   width: 25rem;
   padding: 2rem;
   height: fit-content;
@@ -28,6 +31,7 @@ h1 {
   gap: 2rem;
   box-shadow: 3px 3px 3px 3px gray;
   border-radius: 0.5rem;
+  background-color: rgb(245, 222, 179);
 }
 form {
   display: grid;
@@ -53,7 +57,7 @@ select:hover,
 textarea:focus {
   outline: none;
   background-color: rgb(248, 248, 248);
-  box-shadow: 1px 1px 1px 1px rgb(100, 69, 69);
+  box-shadow: 1px 1px 1px 1px rgb(6, 120, 196);
   border: none;
 }
 textarea {
@@ -70,34 +74,29 @@ select {
   color: black;
 }
 
-button.submit , button.remove{
+button.submit{
   width: 8rem;
   height: 2rem;
   border-radius: 0.25rem;
   border: none;
   box-shadow: 2px 2px 2px 0px rgb(182, 182, 182);
-  background-color: rgb(100, 69, 69);
+  background-color: rgb(6, 120, 196);
   color: white;
 }
 
-button.submit:hover , button.remove:hover{
+button.submit:hover{
   opacity: 0.8;
 }
-button.submit:active, button.remove:active {
+button.submit:active{
   box-shadow: -2px -2px 2px 0px rgb(182, 182, 182);
   opacity: 1;
 }
 
-button.remove{
-  background-color: rgb(168, 0, 0);
-  justify-self: center;
-}
 
 .book {
   position: relative;
-  /* border: 1px solid red; */
   box-shadow: 0px 0px 5px 5px rgb(173, 173, 173);
-  background-color: rgb(100, 69, 69);
+  background-color: transparent;
   padding: 0;
   margin: 0;
   border-radius: 0.25rem;
@@ -118,6 +117,7 @@ button.remove{
   height: 20.1rem;
   z-index: 1;
   box-shadow: 0px 0px 5px 5px rgb(221, 188, 1);
+  /* background-color: rgb(6, 120, 196); */
 }
 
 .book h4 {
@@ -125,14 +125,14 @@ button.remove{
   margin: 0;
   width: 8rem;
   rotate: -90deg;
-  color: gold;
+  color: black;
   text-align: center;
 }
 
 .book p {
   padding: 0;
   margin: 0;
-  color: white;
+  color: black;
   text-align: center;
   font-size: 0.8rem;
 }
@@ -151,12 +151,16 @@ button.remove{
 .shelf {
   grid-column: 1/-1;
   border-radius: 0.5rem;
-  box-shadow: inset 0px 0px 5px 0px black;
-  padding: 1rem;
+  box-shadow: inset 0px 0px 5px 0px rgb(6, 120, 196);
+  padding: 0.5rem;
   display: flex;
   gap: 5px;
-  width: 55rem;
+  width: 54rem;
   height: 22rem;
+
+  background-image: url(../images/whale-horizontal.jpg);
+  background-repeat: no-repeat;
+  background-size: 54rem 22rem;
 }
 
 .book > .tag-group {
@@ -168,33 +172,35 @@ button.remove{
 
 .container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 3rem;
-}
-
-.book:hover{
-  opacity: 0.8;
 }
 
 .book span.read{
   height: 2.5rem;
   position: absolute;
-  color: white;
+  color: black;
   display: none;
   bottom:3.2rem;
   right: 0.8rem;
   cursor:pointer;
   font-size: 1.5rem;
+  font-weight: bolder;
 }
 
 .book span.take{
+  font-weight: bolder;
   display: none;
   position: absolute;
   height: 2.5rem;
   bottom:3.25rem;
   left: 0.8rem;
-  color: white;
+  color: black;
   font-size: 1.8rem;
   cursor: pointer;
   
+}
+
+.blocker{
+  background-color: rgb(229, 247, 252);
+  width: 100%;
 }
