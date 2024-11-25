@@ -20,23 +20,20 @@ h1 {
   padding: 0.5rem;
 }
 
-.form {
-  justify-self: center;
-  width: 25rem;
-  padding: 2rem;
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  box-shadow: 3px 3px 3px 3px gray;
-  border-radius: 0.5rem;
-  background-color: rgb(245, 222, 179);
-}
 form {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+
+  width: 25rem;
+  height: fit-content;
+  
+  justify-self: center;
+  padding: 2rem;
+  
+  border-radius: 0.5rem;
+  box-shadow: 3px 3px 3px 3px gray;
+  background-color: rgb(245, 222, 179);
 }
 
 input,
@@ -74,9 +71,15 @@ select {
   color: black;
 }
 
-button.submit{
+button[type="submit"]{
+  grid-column-start: 1;
+  grid-column-end: 3;
+
   width: 8rem;
   height: 2rem;
+  
+  justify-self: center;
+
   border-radius: 0.25rem;
   border: none;
   box-shadow: 2px 2px 2px 0px rgb(182, 182, 182);
@@ -84,10 +87,11 @@ button.submit{
   color: white;
 }
 
-button.submit:hover{
+button[type="submit"]:hover{
   opacity: 0.8;
 }
-button.submit:active{
+
+button[type="submit"]:active{
   box-shadow: -2px -2px 2px 0px rgb(182, 182, 182);
   opacity: 1;
 }
@@ -106,7 +110,7 @@ button.submit:active{
   justify-content: space-between;
   align-items: center;
 
-  height: 20rem;
+  height: 21rem;
   width: 5rem;
 
   text-transform: capitalize;
@@ -114,7 +118,7 @@ button.submit:active{
 
 .book:hover, .book.selected {
   width: 5.1rem;
-  height: 20.1rem;
+  height: 21.1rem;
   z-index: 1;
   box-shadow: 0px 0px 5px 5px rgb(221, 188, 1);
   /* background-color: rgb(6, 120, 196); */

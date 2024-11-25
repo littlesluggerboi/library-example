@@ -215,7 +215,8 @@ function removeSpan(element) {
   }
 }
 
-function addBookToShelf() {
+function addBookToShelf(e) {
+  e.preventDefault();
   if (!shelf.isFull()) {
     const newBook = createBook();
     const newBookDisplay = bookDisplayBuilder.buildDisplay(newBook);
@@ -237,5 +238,5 @@ const shelf = new Shelf(shelfDisplay);
 const bookPartsFactory = new BookPartsFactory();
 const bookDisplayBuilder = new BookDisplayBuilder(bookPartsFactory);
 
-const addButton = document.querySelector("button.submit");
-addButton.addEventListener("click", addBookToShelf);
+const addButton = document.querySelector("button");
+addButton.addEventListener("click", addBookToShelf,false);
