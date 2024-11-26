@@ -208,3 +208,30 @@ button[type="submit"]:active{
   background-color: rgb(229, 247, 252);
   width: 100%;
 }
+
+dialog{
+  position: absolute;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  visibility: hidden;
+  font-size: 1.4rem;
+}
+
+::backdrop {
+  background-color: rgb(229, 247, 252);
+  opacity: 0.8;
+}
+
+dialog button.close{
+  border: 1px solid red;
+  color: black;
+  width: 2rem;
+  background: none;
+  align-self: flex-end;
+}
+
+dialog button.close:hover{
+  color:white;
+  background-color: red;
+}

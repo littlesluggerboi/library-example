@@ -168,18 +168,18 @@ function createBook() {
 }
 
 function log(e) {
-  console.log(e.srcElement.parentElement);
+  console.log(e.target.parentElement);
 }
 
 function removeBook(e) {
-  const bookDisplay = e.srcElement.parentElement;
+  const bookDisplay = e.target.parentElement;
   const book = shelf.findByDisplay(bookDisplay);
   shelf.remove(book);
 }
 
 function toggleReadBook(e) {
-  const span = e.srcElement;
-  const bookDisplay = e.srcElement.parentElement;
+  const span = e.target;
+  const bookDisplay = e.target.parentElement;
   const book = shelf.findByDisplay(bookDisplay);
   if (book != null) {
     book.read = !book.isRead();
@@ -193,7 +193,7 @@ function toggleReadBook(e) {
 }
 
 function showSpan(element) {
-  const htmlElement = element.srcElement;
+  const htmlElement = element.target;
   if (htmlElement != null && htmlElement.classList.contains("book")) {
     const spanRead = htmlElement.querySelector("span.read");
     spanRead.style.display = "block";
@@ -207,7 +207,7 @@ function showSpan(element) {
 }
 
 function removeSpan(element) {
-  const htmlElement = element.srcElement;
+  const htmlElement = element.target;
   if (htmlElement != null && htmlElement.classList.contains("book")) {
     for (let span of htmlElement.querySelectorAll("span")) {
       span.style.display = "none";
@@ -225,7 +225,9 @@ function addBookToShelf(e) {
 
     shelf.add(newBook, newBookDisplay);
   } else {
-    alert("The Bookshelf is FULL!! Remove a one to add another.");
+    fullDialog.showModal();
+    fullDialog.style.visibility = "visible";
+    // alert("The Bookshelf is FULL!! Remove a one to add another.");
   }
 }
 
@@ -238,5 +240,11 @@ const shelf = new Shelf(shelfDisplay);
 const bookPartsFactory = new BookPartsFactory();
 const bookDisplayBuilder = new BookDisplayBuilder(bookPartsFactory);
 
-const addButton = document.querySelector("button");
+const addButton = document.querySelector('button[type="submit"]');
 addButton.addEventListener("click", addBookToShelf,false);
+
+
+const fullDialog = document.querySelector("dialog.full");
+const closeModalButton = fullDialog.querySelector("button.close");
+
+closeModalButton.addEventListener("click", ()=> {fullDialog.close(); fullDialog.style.visibility = "hidden";});
