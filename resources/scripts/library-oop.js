@@ -177,21 +177,6 @@ function removeBook(e) {
   shelf.remove(book);
 }
 
-function toggleReadBook(e) {
-  const span = e.target;
-  const bookDisplay = e.target.parentElement;
-  const book = shelf.findByDisplay(bookDisplay);
-  if (book != null) {
-    book.read = !book.isRead();
-    let icon = "&#9697";
-    if (book.isRead()) {
-      icon = "👁";
-    }else{
-    }
-    span.innerHTML = icon;
-  }
-}
-
 function showSpan(element) {
   const htmlElement = element.target;
   if (htmlElement != null && htmlElement.classList.contains("book")) {
@@ -201,7 +186,7 @@ function showSpan(element) {
     const spanTake = htmlElement.querySelector("span.take");
     spanTake.style.display = "block";
 
-    spanRead.addEventListener("click", toggleReadBook);
+    spanRead.addEventListener("click", readBook);
     spanTake.addEventListener("click", removeBook);
   }
 }
@@ -231,6 +216,42 @@ function addBookToShelf(e) {
   }
 }
 
+function updateReadingModal(book){
+  const readingModal = document.querySelector("dialog.reading");
+  const title = readingModal.querySelector("h4");
+  const description = readingModal.querySelector("p:nth-of-type(1)");
+  const author = readingModal.querySelector("p:nth-of-type(2)");
+  const publishedYear = readingModal.querySelector("p:nth-of-type(3)");
+  const genre = readingModal.querySelector("p:nth-of-type(4)");
+  title.textContent = book.title;
+  description.textContent = book.description;
+  author.textContent = book.author;
+  publishedYear.textContent = book.yearPublished;
+  genre.textContent = book.genre;
+}
+function openReadingModal(){
+  const readingModal = document.querySelector("dialog.reading");
+  readingModal.showModal();
+  readingModal.style.visibility = "visible";
+}
+function closeReadingModal(){
+  const readingModal = document.querySelector("dialog.reading");
+  readingModal.close();
+  readingModal.style.visibility = "hidden";
+}
+
+function readBook(e) {
+  const span = e.target;
+  const bookDisplay = e.target.parentElement;
+  const book = shelf.findByDisplay(bookDisplay);
+  if (book != null) {
+    book.read = true;  
+    span.innerHTML = "👁";
+    openReadingModal();
+    updateReadingModal(book); 
+  }
+}
+
 const formElement = document.querySelector("form");
 const bookCreator = new BookCreator(formElement);
 
@@ -241,10 +262,14 @@ const bookPartsFactory = new BookPartsFactory();
 const bookDisplayBuilder = new BookDisplayBuilder(bookPartsFactory);
 
 const addButton = document.querySelector('button[type="submit"]');
-addButton.addEventListener("click", addBookToShelf,false);
+addButton.addEventListener("click", addBookToShelf, false);
 
 
 const fullDialog = document.querySelector("dialog.full");
 const closeModalButton = fullDialog.querySelector("button.close");
-
 closeModalButton.addEventListener("click", ()=> {fullDialog.close(); fullDialog.style.visibility = "hidden";});
+
+
+const readingModal = document.querySelector("dialog.reading");
+const closeReadingModalButton = readingModal.querySelector("button.close");
+closeReadingModalButton.addEventListener("click", closeReadingModal);

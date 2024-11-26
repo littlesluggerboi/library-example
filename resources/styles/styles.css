@@ -235,3 +235,18 @@ dialog button.close:hover{
   color:white;
   background-color: red;
 }
+
+dialog.reading{
+  font-size: 1.2rem;
+  width: 45ch;
+}
+dialog.reading > p::first-letter{
+  text-transform: uppercase;
+}
+dialog.reading > p:first-of-type{
+  text-indent: 2rem;
+}
+
+dialog.reading > h4{
+  text-transform: capitalize;
+}
