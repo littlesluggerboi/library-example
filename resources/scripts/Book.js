@@ -116,5 +116,5 @@ export default function Book(bookTitle, bookAuthor, bookDescription, bookGenre, 
     getYear,
     getId
   };
-}
+};
 
