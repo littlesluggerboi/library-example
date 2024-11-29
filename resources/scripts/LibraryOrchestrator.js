@@ -71,8 +71,11 @@ function Book(
   };
 
   const validIntInput = (value) => {
-    if (typeof value != "number" || Math.floor(value) != value) {
-      throw new Error("Not an Integer");
+    console.log(value);
+    value = parseInt(value);
+    console.log(value);
+    if(isNaN(value)){
+        throw new Error("Not a number");
     }
     return value;
   };
@@ -82,7 +85,7 @@ function Book(
     if (value < 1900 || value > 2040) {
       throw new Error("Year out of Range");
     }
-    return value;
+    year = value;
   };
 
   const getYear = () => {
@@ -156,9 +159,6 @@ function Shelf() {
 }
 
 function BookController(book) {
-  if (!(book instanceof Book)) {
-    throw new Error("Pass a Book instance");
-  }
   const bookReference = book;
   let htmlElementReference;
   //createDisplay;
@@ -194,7 +194,7 @@ function BookController(book) {
 
 function ShelfController() {
   const bookShelf = new Shelf();
-  const bookDisplay = document.querySelector(".book");
+  const shelfDisplay = document.querySelector(".shelf");
   const bookDisplays = new Map();
 
   //removeBook;
@@ -219,14 +219,15 @@ function ShelfController() {
     newBookDisplay.createDisplay();
     const bookHtmlElement = newBookDisplay.getDisplay();
     //TODO addevent listener removeBook to the book html element.
-    bookDisplay.prepend(bookHtmlElement);
+    shelfDisplay.prepend(bookHtmlElement);
   };
 
   return { addBook };
 }
 
 function BookCreator() {
-  const form = document.querySelector("form");
+  const form = document.querySelector("form#book-form");
+  console.log(form);
   let currentId = 0;
   //getFormElement
   const getFormElement = () => {
@@ -235,11 +236,13 @@ function BookCreator() {
 
   //create
   const create = () => {
+
     const title = form.elements["title"].value;
     const author = form.elements["author"].value;
-    const description = form.elements["description"];
-    const genre = form.elements["genre"];
-    const year = form.elements["year"];
+    const description = form.elements["description"].value;
+    const genre = form.elements["genre"].value;
+    const year = form.elements["year"].value;
+    console.log(title, author, description, genre, year);
     const newBook = new Book(
       title,
       author,
@@ -259,12 +262,14 @@ function LibraryOrchestrator() {
   const bookCreator = new BookCreator();
   const bookShelf = new ShelfController();
 
-  const addBook = () => {
+  const addBook = (e) => {
+    e.preventDefault();
     const newBook = bookCreator.create();
     bookShelf.addBook(newBook);
   };
-  const addButton = document.querySelector("button.add-book");
-  addButton.addEventListener("click", addBook);
+  const form = document.querySelector("form#book-form")
+  form.onsubmit = addBook;
+  return{bookCreator, bookShelf};
 }
 
-LibraryOrchestrator();
+const lib = new LibraryOrchestrator();
