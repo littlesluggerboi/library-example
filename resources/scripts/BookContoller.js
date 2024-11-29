@@ -21,6 +21,7 @@ export default function BookController(book) {
   const deleteDisplay = () => {
     if (htmlElementReference != null) {
       htmlElementReference.remove();
+      htmlElementReference = null;
     }
   };
   //hoverOverDisplay
