@@ -10,7 +10,7 @@ export default function Shelf(){
         return book;
     }
 
-    const setBook = (value) =>{
+    const addBook = (value) =>{
         if(value instanceof Book){
             bookShelf.set(value.getId(), value);
             return true;
@@ -26,5 +26,5 @@ export default function Shelf(){
         bookShelf.clear();
     }
 
-    return {getBook, setBook, removeBook, clearShelf};
+    return {getBook, addBook, removeBook, clearShelf};
 }
