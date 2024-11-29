@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Libary</title>
-  <script src="./resources/scripts/FormController.js" type="module" defer></script>
-</head>
-<body>
-
-  <div class="shelf">
-    <div class="book" id="1">
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Libary</title>
+    <script src="./resources/scripts/LibraryOrchestrator.js" defer></script>
+    <link rel="stylesheet" href="./resources/styles/styles.css" />
+  </head>
+  <body>
+    <div class="shelf">
+      <div class="book"></div>
     </div>
-  </div>
-  
-</body>
+    <button class="add-book">Add Books</button>
+    <dialog>
+      <form>
+        <input type="text" id="title" name="title" />
+        <input type="text" id="author" name="author" />
+      </form>
+    </dialog>
+  </body>
 </html>

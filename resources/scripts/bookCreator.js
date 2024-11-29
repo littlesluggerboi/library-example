@@ -1,6 +1,6 @@
 import Book from "./Book.js";
 
-export default function bookCreator(){
+export default function BookCreator(){
     const form = document.querySelector("form");
     let currentId = 0;
     //getFormElement
@@ -16,6 +16,7 @@ export default function bookCreator(){
         const genre = form.elements["genre"];
         const year = form.elements["year"];
         const newBook = new Book(title, author, description, genre, year, currentId++);
+        form.reset();
         return newBook;
     }
 
