@@ -25,10 +25,6 @@ export default function Shelf(){
     const clearShelf = () =>{
         bookShelf.clear();
     }
-
-    const length = () =>{
-        return bookShelf.size();
-    }
-
+    
     return {getBook, addBook, removeBook, clearShelf};
 }
