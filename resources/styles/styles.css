@@ -1,3 +1,4 @@
+
 *{
     box-sizing: border-box;
     font-family: Roboto;
@@ -6,6 +7,8 @@
 html{
     padding: 0;
     margin: 0;
+    height: 100vh;
+    width: 100vw;
 }
 body{
     padding: 0;
@@ -13,7 +16,12 @@ body{
     display: grid;
 }
 
-nav{
+h1, h3{
+    padding: 0;
+    margin: 0;
+}
+
+nav, footer{
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -44,6 +52,48 @@ button.add-book:hover{
 button.add-book:active{
     background-color: white;
 }
+
+
+.container{
+    display: flex;
+    justify-content: space-between;
+    width: clamp(23rem, 45vw, 45vw);
+    padding: 0 1rem;
+    margin: auto;
+    align-items: center;
+    gap: 1rem;
+}
+
+.site-content{
+    padding: 1rem 0;
+}
+
+
+
+.shelf-container{
+    width: 100%;
+}
+.recently-viewed{
+    /* border: 1px solid black; */
+    justify-self: start;
+    align-self: flex-start;
+    width: 30ch;
+}
+
+.shelf{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 150px);
+    gap: 2rem;
+    padding: 1rem 0rem;
+}
+
+.book{
+    border: 1px solid blue;
+    height: 250px;
+}
+
+
 
 
 ::backdrop{
