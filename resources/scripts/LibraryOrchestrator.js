@@ -71,11 +71,9 @@ function Book(
   };
 
   const validIntInput = (value) => {
-    console.log(value);
     value = parseInt(value);
-    console.log(value);
-    if(isNaN(value)){
-        throw new Error("Not a number");
+    if (isNaN(value)) {
+      throw new Error("Not a number");
     }
     return value;
   };
@@ -227,22 +225,18 @@ function ShelfController() {
 
 function BookCreator() {
   const form = document.querySelector("form#book-form");
-  console.log(form);
   let currentId = 0;
-  //getFormElement
   const getFormElement = () => {
     return form;
   };
 
   //create
   const create = () => {
-
     const title = form.elements["title"].value;
     const author = form.elements["author"].value;
     const description = form.elements["description"].value;
     const genre = form.elements["genre"].value;
     const year = form.elements["year"].value;
-    console.log(title, author, description, genre, year);
     const newBook = new Book(
       title,
       author,
@@ -258,18 +252,34 @@ function BookCreator() {
   return { create, getFormElement };
 }
 
+function modalContoller() {
+  const bookFormModal = document.querySelector("dialog");
+  const show = () => {
+    bookFormModal.showModal();
+  };
+  const hide = () => {
+    bookFormModal.close();
+  };
+  return { show, hide };
+}
+
 function LibraryOrchestrator() {
   const bookCreator = new BookCreator();
   const bookShelf = new ShelfController();
+  const formModal = new modalContoller();
 
   const addBook = (e) => {
     e.preventDefault();
     const newBook = bookCreator.create();
     bookShelf.addBook(newBook);
+    formModal.hide();
   };
-  const form = document.querySelector("form#book-form")
+
+  const form = bookCreator.getFormElement();
   form.onsubmit = addBook;
-  return{bookCreator, bookShelf};
+
+  const addBookButton = document.querySelector("button.add-book");
+  addBookButton.addEventListener("click", formModal.show);
 }
 
 const lib = new LibraryOrchestrator();
