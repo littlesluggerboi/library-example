@@ -37,9 +37,9 @@ button.add-book{
     outline: none;
     border: none;
     text-transform: uppercase;
-    color: rgb(1, 45, 112);
+    color: rgb(1, 99, 112);
     font-weight: 900;
-    font-size: 1.8rem;
+    font-size: 5rem;
     padding: 0;
     border-radius: 0.25rem;
     height: 100%;
@@ -126,11 +126,11 @@ button.add-book:active{
 .img-container{
     height: 220px;
     width: 150px;
-    background-color: brown;
     margin-bottom: 0.25rem;
     background-image: url(../images/book.jpg);
     background-size: cover;
     background-position-x: center;
+    background-position-y: center;
     position: relative;
 }
 
@@ -159,7 +159,7 @@ button.add-book:active{
 
 dialog{
     border: none;
-    background-color:rgb(1, 45, 112);
+    background-color:rgb(1, 99, 112);
     border-radius: 0.5rem;
     width: 30rem;
     padding: 2rem 2rem;

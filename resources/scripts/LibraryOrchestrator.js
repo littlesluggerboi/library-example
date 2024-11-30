@@ -138,11 +138,7 @@ function Shelf() {
   };
 
   const addBook = (value) => {
-    if (value instanceof Book) {
-      bookShelf.set(value.getId(), value);
-      return true;
-    }
-    return false;
+    bookShelf.set(value.getId(), value);
   };
 
   const removeBook = (value) => {
@@ -170,27 +166,27 @@ function BookController(book) {
       "hidden";
   };
 
-  const readBook = (event) => {
-    const button = event.target;
+  const readBook = () => {
+    const button = htmlElementReference.querySelector("button.read");
     if (!bookReference.isRead()) {
       greenButton(button);
-    } else{
+    } else {
       whiteButton(button);
     }
     bookReference.toggleIsRead();
   };
 
-  const greenButton = (buttonElement)=>{
-    buttonElement.textContent = "read";
+  const greenButton = (buttonElement) => {
+    buttonElement.textContent = "unread";
     buttonElement.style.backgroundColor = "green";
     buttonElement.style.color = "white";
-  }
-  
-  const whiteButton = (buttonElement)=>{
-    buttonElement.textContent = "unread";
+  };
+
+  const whiteButton = (buttonElement) => {
+    buttonElement.textContent = "read";
     buttonElement.style.backgroundColor = "white";
     buttonElement.style.color = "black";
-  }
+  };
 
   const createDisplay = () => {
     if (htmlElementReference != null) {
@@ -210,8 +206,7 @@ function BookController(book) {
 
     const read_button = document.createElement("button");
     read_button.classList.add("read");
-    read_button.textContent = "unread";
-    read_button.addEventListener("click", readBook);
+    read_button.textContent = "read";
 
     book_actions.append(remove_buttton, read_button);
     img_container.append(book_actions);
@@ -245,7 +240,7 @@ function BookController(book) {
     return htmlElementReference;
   };
 
-  return { createDisplay, deleteDisplay, getDisplay };
+  return { createDisplay, deleteDisplay, getDisplay, readBook };
 }
 
 function ShelfController() {
@@ -255,12 +250,16 @@ function ShelfController() {
 
   //removeBook;
   const deleteBookDisplay = (bookId) => {
-    bookDisplays.get(bookId).deleteDisplay();
+    const bookDisplay = bookDisplays.get(bookId);
+    if (bookDisplay != null) {
+      bookDisplay.deleteDisplay();
+    }
   };
 
   const removeBook = (event) => {
-    const targetElement = event.target;
-    const bookId = targetElement.id;
+    const targetElement =
+      event.target.parentElement.parentElement.parentElement;
+    const bookId = parseInt(targetElement.id);
     deleteBookDisplay(bookId);
     bookDisplays.delete(bookId);
     bookShelf.removeBook(bookId);
@@ -275,6 +274,10 @@ function ShelfController() {
     newBookDisplay.createDisplay();
     const bookHtmlElement = newBookDisplay.getDisplay();
     //TODO addevent listener removeBook to the book html element.
+    bookHtmlElement
+      .querySelector("button.remove")
+      .addEventListener("click", removeBook);
+    //TODO add event listener for read sht.
     shelfDisplay.prepend(bookHtmlElement);
   };
 
