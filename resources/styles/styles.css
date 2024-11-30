@@ -107,7 +107,23 @@ button.add-book:active{
     align-items: center;
     justify-content: center;
     gap: 5px;
-    visibility: hidden;
+    /* visibility: hidden; */
+}
+
+.book button{
+    box-shadow: 0px 0px 1px 0px gray;
+    border-radius: 0.25rem;
+    background: none;
+    font-size: 1.1rem;
+}
+.book button.remove{
+    background-color: red;
+    color: white;
+}
+
+.book button.unread{
+    background-color: green;
+    color: white;
 }
 
 

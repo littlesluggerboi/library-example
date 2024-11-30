@@ -161,10 +161,10 @@ function BookController(book) {
   let htmlElementReference;
   //createDisplay;
   
-  const showBookActions = (event)=>{
+  const showBookActions = ()=>{
     htmlElementReference.querySelector(".book-actions").style.visibility = "visible";
   }
-  const hideBookAction = (event) =>{
+  const hideBookAction = () =>{
     htmlElementReference.querySelector(".book-actions").style.visibility = "hidden";
   }
   
