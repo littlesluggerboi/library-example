@@ -230,7 +230,6 @@ function BookController(book) {
       htmlElementReference = null;
     }
   };
-  //hoverOverDisplay
 
   //getDisplay;
   const getDisplay = () => {
@@ -243,10 +242,51 @@ function BookController(book) {
   return { createDisplay, deleteDisplay, getDisplay, readBook };
 }
 
+function RecentlyController(){
+  const recentlyAddedContainer = document.querySelector(".recently-added-container");
+  const recentActivityContainer = document.querySelector(".recent-activity-container");
+
+  const createActivityElement = (book)=>{
+    const viewedElement = document.createElement("div");
+    viewedElement.classList.add("viewed");
+    
+    const title = document.createElement("h4");
+    title.textContent = book.getTitle();
+
+    const author = document.createElement("p");
+    author.textContent = book.getAuthor();
+    
+    viewedElement.append(title, author);
+    return viewedElement;
+  }
+  
+  const maintainContainerSize = (element)=>{
+    if(element.children.length == 3){
+      element.children[2].remove();
+    }
+  }
+
+  const addRecentActivity = (book)=>{
+    
+    const newActivity = createActivityElement(book);
+    maintainContainerSize(recentActivityContainer);
+    recentActivityContainer.prepend(newActivity);
+  }
+
+  const addRecentlyAdded = (book)=>{
+    const newlyAdded = createActivityElement(book);
+    maintainContainerSize(recentlyAddedContainer);
+    recentlyAddedContainer.prepend(newlyAdded);
+  }
+
+  return {addRecentActivity, addRecentlyAdded};
+}
+
 function ShelfController() {
   const bookShelf = new Shelf();
   const shelfDisplay = document.querySelector(".shelf");
   const bookDisplays = new Map();
+  const recentController = new RecentlyController();
 
   //removeBook;
   const deleteBookDisplay = (bookId) => {
@@ -265,6 +305,15 @@ function ShelfController() {
     bookShelf.removeBook(bookId);
   };
 
+  const readBook = (event) => {
+    const targetElement =
+      event.target.parentElement.parentElement.parentElement;
+    const bookId = parseInt(targetElement.id);
+    bookDisplays.get(bookId).readBook();
+    //TODO add book to recently viewed
+    recentController.addRecentActivity(bookShelf.getBook(bookId));
+  };
+
   //addBook;
   const addBook = (book) => {
     const newBookDisplay = new BookController(book);
@@ -273,12 +322,15 @@ function ShelfController() {
     bookDisplays.set(bookId, newBookDisplay);
     newBookDisplay.createDisplay();
     const bookHtmlElement = newBookDisplay.getDisplay();
-    //TODO addevent listener removeBook to the book html element.
     bookHtmlElement
       .querySelector("button.remove")
       .addEventListener("click", removeBook);
-    //TODO add event listener for read sht.
+    bookHtmlElement
+      .querySelector("button.read")
+      .addEventListener("click", readBook);
     shelfDisplay.prepend(bookHtmlElement);
+    //TODO add book to recently added.
+    recentController.addRecentlyAdded(book);
   };
 
   return { addBook };

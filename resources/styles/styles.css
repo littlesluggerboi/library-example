@@ -22,7 +22,7 @@ h1, h3, h4, p{
     text-overflow: ellipsis;
 }
 
-nav, footer{
+nav{
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -135,7 +135,7 @@ button.add-book:active{
 }
 
 .book h4, .book p, .viewed h4, .viewed p{
-    max-height: 1rem;
+    max-height: 1.2rem;
     text-transform: capitalize;
 }
 .book h4{
