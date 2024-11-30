@@ -97,15 +97,30 @@ button.add-book:active{
     flex-direction: column;
     height: 280px;
 }
+.book-actions{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(221, 221, 221);
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    visibility: hidden;
+}
+
+
+
 .img-container{
     height: 220px;
     width: 150px;
     background-color: brown;
     margin-bottom: 0.25rem;
-    background-image: url(../images/sample-book.jpg);
+    background-image: url(../images/book.jpg);
     background-size: cover;
-    
-    /* border: 1px solid red; */
+    background-position-x: center;
+    position: relative;
 }
 
 .book h4, .book p, .viewed h4, .viewed p{

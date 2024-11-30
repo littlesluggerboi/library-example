@@ -160,13 +160,47 @@ function BookController(book) {
   const bookReference = book;
   let htmlElementReference;
   //createDisplay;
+  
+  const showBookActions = (event)=>{
+    htmlElementReference.querySelector(".book-actions").style.visibility = "visible";
+  }
+  const hideBookAction = (event) =>{
+    htmlElementReference.querySelector(".book-actions").style.visibility = "hidden";
+  }
+  
   const createDisplay = () => {
     if (htmlElementReference != null) {
       throw new Error("Book already got a display");
     }
     const newDisplay = document.createElement("div");
     newDisplay.id = book.getId();
+    
+    const img_container = document.createElement("div");
+    img_container.classList.add("img-container");
+
+    const book_actions = document.createElement("div");
+    book_actions.classList.add("book-actions");
+    const remove_buttton = document.createElement("button");
+    remove_buttton.classList.add("remove");
+    remove_buttton.textContent = "remove";
+
+    const read_button = document.createElement("button");
+    read_button.classList.add("read");
+    read_button.textContent = "read"; 
+    
+    book_actions.append(remove_buttton, read_button);
+    img_container.append(book_actions);
+    img_container.addEventListener("mouseover", showBookActions);
+    img_container.addEventListener("mouseout", hideBookAction);
+    
+
+    const title = document.createElement("h4");
+    title.textContent = bookReference.getTitle();
+    const author = document.createElement("p");
+    author.textContent = bookReference.getAuthor();
     newDisplay.classList.add("book");
+    newDisplay.append(img_container,title, author);
+
     htmlElementReference = newDisplay;
   };
 
