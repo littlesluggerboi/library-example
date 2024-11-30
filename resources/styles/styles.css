@@ -44,8 +44,8 @@ button.add-book{
     border-radius: 0.25rem;
     height: 100%;
     width: 100%;
-    box-shadow: 0px 0px 2px 0px gray;
     margin: auto;
+    box-shadow: 0px 0px 0.5rem 0px gray;
 }
 
 button.add-book:hover{
@@ -107,10 +107,10 @@ button.add-book:active{
     align-items: center;
     justify-content: center;
     gap: 5px;
-    /* visibility: hidden; */
+    visibility: hidden;
 }
 
-.book button{
+.book .book-actions button{
     box-shadow: 0px 0px 1px 0px gray;
     border-radius: 0.25rem;
     background: none;
@@ -118,11 +118,6 @@ button.add-book:active{
 }
 .book button.remove{
     background-color: red;
-    color: white;
-}
-
-.book button.unread{
-    background-color: green;
     color: white;
 }
 

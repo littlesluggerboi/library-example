@@ -160,21 +160,45 @@ function BookController(book) {
   const bookReference = book;
   let htmlElementReference;
   //createDisplay;
-  
-  const showBookActions = ()=>{
-    htmlElementReference.querySelector(".book-actions").style.visibility = "visible";
+
+  const showBookActions = () => {
+    htmlElementReference.querySelector(".book-actions").style.visibility =
+      "visible";
+  };
+  const hideBookAction = () => {
+    htmlElementReference.querySelector(".book-actions").style.visibility =
+      "hidden";
+  };
+
+  const readBook = (event) => {
+    const button = event.target;
+    if (!bookReference.isRead()) {
+      greenButton(button);
+    } else{
+      whiteButton(button);
+    }
+    bookReference.toggleIsRead();
+  };
+
+  const greenButton = (buttonElement)=>{
+    buttonElement.textContent = "read";
+    buttonElement.style.backgroundColor = "green";
+    buttonElement.style.color = "white";
   }
-  const hideBookAction = () =>{
-    htmlElementReference.querySelector(".book-actions").style.visibility = "hidden";
-  }
   
+  const whiteButton = (buttonElement)=>{
+    buttonElement.textContent = "unread";
+    buttonElement.style.backgroundColor = "white";
+    buttonElement.style.color = "black";
+  }
+
   const createDisplay = () => {
     if (htmlElementReference != null) {
       throw new Error("Book already got a display");
     }
     const newDisplay = document.createElement("div");
     newDisplay.id = book.getId();
-    
+
     const img_container = document.createElement("div");
     img_container.classList.add("img-container");
 
@@ -186,20 +210,20 @@ function BookController(book) {
 
     const read_button = document.createElement("button");
     read_button.classList.add("read");
-    read_button.textContent = "read"; 
-    
+    read_button.textContent = "unread";
+    read_button.addEventListener("click", readBook);
+
     book_actions.append(remove_buttton, read_button);
     img_container.append(book_actions);
     img_container.addEventListener("mouseover", showBookActions);
     img_container.addEventListener("mouseout", hideBookAction);
-    
 
     const title = document.createElement("h4");
     title.textContent = bookReference.getTitle();
     const author = document.createElement("p");
     author.textContent = bookReference.getAuthor();
     newDisplay.classList.add("book");
-    newDisplay.append(img_container,title, author);
+    newDisplay.append(img_container, title, author);
 
     htmlElementReference = newDisplay;
   };
