@@ -59,7 +59,7 @@ button.add-book:active{
 .container{
     display: flex;
     justify-content: space-between;
-    width: clamp(23rem, 45vw, 60rem);
+    width: clamp(23rem, 80rem, 70vw);
     padding: 0 0rem;
     margin: auto;
     align-items: center;
@@ -88,14 +88,14 @@ button.add-book:active{
 
 .shelf{
     display: grid;
-    grid-template-columns: repeat(auto-fit, 150px);
+    grid-template-columns: repeat(auto-fit, 180px);
     gap: 1rem;
     padding: 1rem 0rem;
 }
 .book{
     display: flex;
     flex-direction: column;
-    height: 280px;
+    /* height: 280px; */
 }
 .book-actions{
     position: absolute;
@@ -124,13 +124,14 @@ button.add-book:active{
 
 
 .img-container{
-    height: 220px;
-    width: 150px;
+    height: 260px;
+    width: 180px;
     margin-bottom: 0.25rem;
     background-image: url(../images/book.jpg);
     background-size: cover;
     background-position-x: center;
     background-position-y: center;
+    box-shadow: 2px 2px 8px 1px gray;
     position: relative;
 }
 
