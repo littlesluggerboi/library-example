@@ -1,0 +1,145 @@
+{
+  "authors": [
+    {
+      "first_name": "Stephen",
+      "last_name": "King",
+      "middle_name": "Edwin",
+      "date_of_birth": "1947-09-21",
+      "date_of_death": null
+    },
+    {
+      "first_name": "William",
+      "last_name": "Shakespeare",
+      "middle_name": null,
+      "date_of_birth": "1564-04-21",
+      "date_of_death": "1616-04-23"
+    },
+    {
+      "first_name": "Joanne",
+      "last_name": "Rowling",
+      "middle_name": null,
+      "date_of_birth": "1965-07-31",
+      "date_of_death": null
+    }
+  ],
+  "users": [
+    {
+      "username": "user1",
+      "password": "test",
+      "email": "test@email.com"
+    }
+  ],
+  "genres": [
+    { "name": "Horror" },
+    { "name": "Fiction" },
+    { "name": "Mystery" },
+    { "name": "Novel" },
+    { "name": "Non-Fiction" },
+    { "name": "Science fiction" },
+    { "name": "Narrative" },
+    { "name": "Historical Fiction" },
+    { "name": "Genre Fiction" },
+    { "name": "Thriller" },
+    { "name": "Fantasy" },
+    { "name": "Short Story" },
+    { "name": "Biography" },
+    { "name": "Dark Fantasy" },
+    { "name": "Coming-of-age story" },
+    { "name": "Shakespearean tragedy" }
+  ],
+  "languages": [
+    { "name": "English" },
+    { "name": "French" },
+    { "name": "Portugese" }
+  ],
+  "publishers": [
+    {
+      "name": "O’Reilly Media, Inc.",
+      "location": "1005 Gravenstein Highway North, Sebastopol, CA 95472"
+    },
+    {
+      "name": "Viking Press",
+      "location": "New York City"
+    },
+    {
+      "name": "Bloomsbury",
+      "location": "London, England"
+    }
+  ],
+  "books": [
+    {
+      "title": "It",
+      "summary": "The story follows the experiences of seven children terrorized by It (otherwise known as Pennywise), an evil entity that exploits the fears of its victims to disguise itself while hunting its prey.",
+      "genre": [1, 4, 10, 14, 15],
+      "authors": [1],
+      "language": 1,
+      "publication_date": "1986-09-15",
+      "publisher": 2,
+      "isbn": "0670813028"
+    },
+    {
+      "title": "The Tragedy of Romeo and Juliet",
+      "summary": "About the romance between two young Italians from feuding families.",
+      "genre": [16],
+      "authors": [2],
+      "language": 1,
+      "publication_date": null,
+      "publisher": null,
+      "isbn": null
+    },
+    {
+      "title": "Harry Potter and the Sorcerer's Stone",
+      "summary": "It follows Harry Potter, a young wizard who discovers his magical heritage on his eleventh birthday when he receives a letter of acceptance to Hogwarts School of Witchcraft and Wizardry. Harry makes close friends and a few enemies during his first year at the school. With the help of his friends, Ron Weasley and Hermione Granger, he faces an attempted comeback by the dark wizard Lord Voldemort, who killed Harry's parents but failed to kill Harry when he was just 15 months old.",
+      "genre": [11],
+      "authors": [3],
+      "language": 1,
+      "publication_date": "1997-06-26",
+      "publisher": 3,
+      "isbn": "9780747532699"
+    },
+    {
+      "title": "Harry Potter and the Chamber of Secrets",
+      "summary": "he plot follows Harry's second year at Hogwarts School of Witchcraft and Wizardry, during which a series of messages on the walls of the school's corridors warn that the 'Chamber of Secrets' has been opened and that the 'heir of Slytherin' would kill all pupils who do not come from all-magical families. These threats are found after attacks that leave residents of the school petrified. Throughout the year, Harry and his friends Ron and Hermione investigate the attacks.",
+      "genre": [11],
+      "authors": [3],
+      "language": 1,
+      "publication_date": "1998-07-02",
+      "publisher": 3,
+      "isbn": "0747538492"
+    }
+  ],
+  "book_instances": [
+    {
+      "book": 1,
+      "book_number": 1,
+      "status": "Available"
+    },
+    {
+      "book": 1,
+      "book_number": 2,
+      "status": "Available"
+    },
+    {
+      "book": 1,
+      "book_number": 3,
+      "status": "Unavailable"
+    },
+    {
+      "book": 2,
+      "book_number": 1,
+      "status": "On Loan",
+      "borrower": 2,
+      "date_borrowed": "2025-09-11",
+      "due_back": "2025-09-16"
+    }
+  ],
+  "book_instance_borrower_records": [
+    {
+      "book_instance": 3,
+      "borrower": 2,
+      "date_borrowed": "2025-09-11",
+      "due_back": "2025-09-16",
+      "date_returned": "2025-09-16"
+    }
+  ]
+}
